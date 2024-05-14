@@ -13,20 +13,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  List<Note> currentlist= NoteDataBase.currentlist;
   void readNotes(){
     context.read<NoteDataBase>().fetchNote();
   }
   @override
   void initState() {
+    readNotes();
     // TODO: implement initState
     super.initState();
-    readNotes();
+    
   }
   @override
   Widget build(BuildContext context) {
 
     final noteDataBase=context.watch<NoteDataBase>();
-    List<Note> currentlist= NoteDataBase.currentlist;
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(left: 10, right: 10),
         child: ListView.builder(
-          itemCount: 1,
+          itemCount: currentlist.length,
           itemBuilder: (context, index) {
             final note=currentlist[index];
             return NoteTile(title:note.title.toString() , content: note.content.toString());
