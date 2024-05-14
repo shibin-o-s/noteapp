@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/database/base.dart';
+import 'package:noteapp/database/note.dart';
 import 'package:noteapp/pages/display.dart';
 import 'package:provider/provider.dart';
 
@@ -9,12 +10,13 @@ class NoteTile extends StatefulWidget {
       {super.key,
       required this.title,
       required this.content,
-      required this.nid});
+      required this.nid,
+      required this.note});
 
   final String title;
   final String content;
   final int nid;
-
+  final Note note;
   @override
   State<NoteTile> createState() => _NoteTileState();
 }
@@ -22,10 +24,15 @@ class NoteTile extends StatefulWidget {
 class _NoteTileState extends State<NoteTile> {
   @override
   Widget build(BuildContext context) {
+    final noteDataBase = context.read<NoteDataBase>();
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => DisplayPage()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => DisplayPage(
+                      note: widget.note,
+                    )));
       },
       onLongPress: () {
         // Navigator.push(context, MaterialPageRoute(builder: (context)=>Pop()));
@@ -44,7 +51,7 @@ class _NoteTileState extends State<NoteTile> {
                   blurRadius: 1,
                   spreadRadius: .01)
             ]),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,11 +62,15 @@ class _NoteTileState extends State<NoteTile> {
               children: [
                 Text(
                   widget.title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                Text(
-                  widget.content,
-                  style: TextStyle(fontSize: 16),
+                Expanded(
+                  child: Text(
+                    widget.content,
+                    style: const TextStyle(fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -68,23 +79,25 @@ class _NoteTileState extends State<NoteTile> {
                 PopupMenuItem(
                     child: TextButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.share_outlined),
-                        label: Text('share'))),
+                        icon: const Icon(Icons.share_outlined),
+                        label: const Text('share'))),
                 PopupMenuItem(
                     child: TextButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.archive_rounded),
-                        label: Text('archive'))),
+                        icon: const Icon(Icons.archive_rounded),
+                        label: const Text('archive'))),
                 PopupMenuItem(
                     child: TextButton.icon(
                         onPressed: () {
-                          context.watch<NoteDataBase>().deleteNote(widget.nid);
+                          noteDataBase.deleteNote(widget.nid);
+                          Navigator.pop(context);
                           setState(() {});
                         },
-                        icon: Icon(Icons.delete),
-                        label: Text('delete')))
+                        icon: const Icon(Icons.delete),
+                        label: const Text('delete')))
               ],
-            )
+            ),
+            // IconButton(onPressed: () {}, icon: Icon(Icons.edit))
           ],
         ),
       ),

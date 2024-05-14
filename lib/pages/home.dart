@@ -36,39 +36,43 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        title: Text(
+        title: const Text(
           'Notes',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: Icon(Icons.note_alt_outlined),
+        leading: const Icon(Icons.note_alt_outlined),
         actions: [
           IconButton(
               onPressed: () {
                 setState(() {});
                 log(currentlist.toString());
               },
-              icon: Icon(Icons.search))
+              icon: const Icon(Icons.search))
         ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: ListView.builder(
           itemCount: currentlist.length,
           itemBuilder: (context, index) {
             final note = currentlist[index];
             return NoteTile(
-                title: note.title.toString(), content: note.content.toString(),nid: note.id,);
+              note: note,
+              title: note.title.toString(),
+              content: note.content.toString(),
+              nid: note.id,
+            );
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddPage()));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
