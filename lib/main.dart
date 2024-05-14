@@ -8,7 +8,7 @@ Future<void> main() async {
   await NoteDataBase.initialize();
   runApp(ChangeNotifierProvider(
     create: (context) => NoteDataBase(),
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
