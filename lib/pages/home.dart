@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:noteapp/database/base.dart';
 import 'package:noteapp/database/note.dart';
 import 'package:noteapp/pages/addpage.dart';
 import 'package:noteapp/widget/note_tile.dart';
 import 'package:provider/provider.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -12,23 +15,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  List<Note> currentlist= NoteDataBase.currentlist;
-  void readNotes(){
+  List<Note> currentlist = NoteDataBase.currentlist;
+  void readNotes() {
     context.read<NoteDataBase>().fetchNote();
   }
+
   @override
   void initState() {
     readNotes();
     // TODO: implement initState
     super.initState();
-    
   }
+
   @override
   Widget build(BuildContext context) {
+    final noteDataBase = context.watch<NoteDataBase>();
 
-    final noteDataBase=context.watch<NoteDataBase>();
-    
+    List<Note> currentlist = NoteDataBase.currentlist;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +40,14 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: Icon(Icons.note_alt_outlined),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                setState(() {});
+                log(currentlist.toString());
+              },
+              icon: Icon(Icons.search))
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -46,8 +56,9 @@ class _HomePageState extends State<HomePage> {
         child: ListView.builder(
           itemCount: currentlist.length,
           itemBuilder: (context, index) {
-            final note=currentlist[index];
-            return NoteTile(title:note.title.toString() , content: note.content.toString());
+            final note = currentlist[index];
+            return NoteTile(
+                title: note.title.toString(), content: note.content.toString());
           },
         ),
       ),

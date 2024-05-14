@@ -13,7 +13,7 @@ class NoteDataBase extends ChangeNotifier{
 
   static Future<void> initialize() async {
     final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open(
+    isar = await Isar.open(
       [NoteSchema],
       directory: dir.path,
     );
@@ -23,7 +23,8 @@ class NoteDataBase extends ChangeNotifier{
   Future<void> addNote(String head,String content)async{
     print('*****ADDNOTE CALLED******');
     final newNote = Note(title: head, content: content);
-    isar.writeTxn(() => isar.notes.put(newNote));
+   await isar.writeTxn(() => isar.notes.put(newNote));
+   await fetchNote();
   }
   //update 
 

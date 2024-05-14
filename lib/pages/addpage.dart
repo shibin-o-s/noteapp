@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:noteapp/database/base.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +22,8 @@ class _AddPageState extends State<AddPage> {
         actions: [
           IconButton(
               onPressed: () {
-                context.watch<NoteDataBase>().addNote(myCtrl.text, myCtrl2.text);
+             
+                context.read<NoteDataBase>().addNote(myCtrl.text, myCtrl2.text);
                 myCtrl.clear();
                 myCtrl2.clear();
                 Navigator.pop(context);
