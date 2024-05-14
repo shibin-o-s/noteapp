@@ -39,9 +39,19 @@ class _AddPageState extends State<AddPage> {
           child: Column(
             children: [
               TextField(
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: 'Enter your title',
+                  border: InputBorder.none
+                ),
                 controller: myCtrl,
               ),
               TextField(
+                maxLines: null,
+                decoration: InputDecoration(
+                  hintText: 'body',
+                  border: InputBorder.none
+                ),
                 controller: myCtrl2,
               )
             ],

@@ -38,7 +38,7 @@ class NoteDataBase extends ChangeNotifier{
   }
   //delete
   Future<void>  deleteNote(Id id)async{
-    await isar.writeTxn(() => deleteNote(id));
+    await isar.writeTxn(() => isar.notes.delete(id));
     await fetchNote();
   }
 }

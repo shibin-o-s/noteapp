@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 2,
         title: Text(
           'Notes',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context, index) {
             final note = currentlist[index];
             return NoteTile(
-                title: note.title.toString(), content: note.content.toString());
+                title: note.title.toString(), content: note.content.toString(),nid: note.id,);
           },
         ),
       ),
